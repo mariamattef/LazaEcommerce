@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:laza_ecommerce/core/databases/api/api_consumer.dart';
+import 'package:laza_ecommerce/core/databases/api/api_interceptors.dart';
 import 'package:laza_ecommerce/core/databases/api/end_points.dart';
 import 'package:laza_ecommerce/core/errors/expentions.dart';
 
@@ -8,6 +9,7 @@ class DioConsumer extends ApiConsumer {
 
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndPoints.baserUrl;
+    dio.interceptors.add(ApiInterceptor());
   }
 
   //!POST

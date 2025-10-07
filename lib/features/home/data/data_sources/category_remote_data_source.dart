@@ -24,6 +24,8 @@ class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
       } else {
         throw ServerException(ErrorModel(status: 400, errorMessage: 'categories key is missing or not a list'));
       }
+    } on UnauthorizedException {
+      throw ServerException(ErrorModel(status: 401, errorMessage: 'Unauthorized: Please add your token to the ApiInterceptor'));
     } catch (e) {
       throw ServerException(ErrorModel(status: 500, errorMessage: e.toString()));
     }

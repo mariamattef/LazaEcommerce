@@ -28,28 +28,35 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     _buildHeader(context),
                     SizedBox(height: 20.h),
-                                      Text(
-                                        AppLocalizations.of(context)!.hello,
-                                        style: TextStyle(
-                                          fontSize: 28.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        AppLocalizations.of(context)!.welcomeToLaza,
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: ColorUtility.textColor2,
-                                        ),
-                                      ),
-                                      SizedBox(height: 20.h),
-                                      _buildSearchBar(context),
-                                      SizedBox(height: 20.h),
-                                      _buildSectionHeader(AppLocalizations.of(context)!.categories, context),
-                                      SizedBox(height: 10.h),
-                                      _buildCategorySection(),
-                                      SizedBox(height: 20.h),
-                                      _buildSectionHeader(AppLocalizations.of(context)!.newArrival, context),                    SizedBox(height: 10.h),
+                    Text(
+                      AppLocalizations.of(context)!.hello,
+                      style: TextStyle(
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.welcomeToLaza,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: ColorUtility.textColor2,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    _buildSearchBar(context),
+                    SizedBox(height: 20.h),
+                    _buildSectionHeader(
+                      AppLocalizations.of(context)!.categories,
+                      context,
+                    ),
+                    SizedBox(height: 10.h),
+                    _buildCategorySection(),
+                    SizedBox(height: 20.h),
+                    _buildSectionHeader(
+                      AppLocalizations.of(context)!.newArrival,
+                      context,
+                    ),
+                    SizedBox(height: 10.h),
                     _buildNewArrivalsSection(),
                   ],
                 ),
@@ -110,7 +117,7 @@ class HomeScreen extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.shopping_bag_outlined,
-             color: Color(0xff1D1E20),
+            color: Color(0xff1D1E20),
             size: 30.r,
           ),
           onPressed: () {},
@@ -141,7 +148,7 @@ class HomeScreen extends StatelessWidget {
         SizedBox(width: 10.w),
         Container(
           decoration: BoxDecoration(
-            color: Colors.deepPurple,
+            color: ColorUtility.mainColor,
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: IconButton(
@@ -172,7 +179,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryList( categories) {
+  Widget _buildCategoryList(categories) {
     return SizedBox(
       height: 50.h,
       child: ListView.builder(
@@ -191,11 +198,30 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(10.r),
               ),
-              child: Center(
-                child: Text(
-                  category.name,
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp),
-                ),
+              child: Row(
+                children: [
+                  ClipOval(
+                    child: Image.network(
+                      category.coverPictureUrl,
+                      width: 40.r,
+                      height: 40.r,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.error);
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Center(
+                    child: Text(
+                      category.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
