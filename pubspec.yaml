@@ -1,0 +1,65 @@
+name: laza_ecommerce
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  cupertino_icons: ^1.0.8
+  dartz: ^0.10.1
+  dio: ^5.9.0
+  equatable: ^2.0.5
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  flutter_native_splash: ^2.4.6
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.1
+  internet_connection_checker: ^3.0.1
+  paymob_payment: ^0.0.1+1
+  shared_preferences: ^2.5.3
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/fonts/
+    - assets/images/
+    - assets/svg/
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter_18pt-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Inter_18pt-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter_18pt-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Inter_18pt-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Inter_18pt-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter_18pt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter_18pt-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter_24pt-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter_24pt-ExtraBold.ttf
+          weight: 800
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/splash.png
