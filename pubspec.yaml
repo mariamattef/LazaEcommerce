@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.8
+  flutter_launcher_icons: ^0.14.4
   dartz: ^0.10.1
   dio: ^5.9.0
   equatable: ^2.0.5
@@ -18,6 +19,7 @@ dependencies:
   flutter_native_splash: ^2.4.6
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.1
+  get_it: ^8.2.0
   internet_connection_checker: ^3.0.1
   paymob_payment: ^0.0.1+1
   shared_preferences: ^2.5.3
@@ -38,6 +40,17 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/svg/
+  # flutter_native_splash:
+  #   color: "#9775FA" 
+  #   image: assets/images/splash.png 
+  #   android: true
+  #   ios: true
+  #   fullscreen: true
+
+  #   android_12:
+  #     color: "#9775FA"
+  #     image: assets/images/splash.png
+
   fonts:
     - family: Inter
       fonts:
@@ -60,6 +73,4 @@ flutter:
         - asset: assets/fonts/Inter_24pt-ExtraBold.ttf
           weight: 800
 
-flutter_native_splash:
-  color: "#FFFFFF"
-  image: assets/images/splash.png
+

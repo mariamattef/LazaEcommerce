@@ -8,6 +8,7 @@ import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/
 import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/category_state.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/product_cubit/product_cubit.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/product_cubit/product_state.dart';
+import 'package:laza_ecommerce/features/home/presentation/widgets/product_card.dart';
 import 'package:laza_ecommerce/l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,54 +16,47 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Builder(
-          builder: (context) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20.h),
-                    _buildHeader(context),
-                    SizedBox(height: 20.h),
-                    Text(
-                      AppLocalizations.of(context)!.hello,
-                      style: TextStyle(
-                        fontSize: 28.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.welcomeToLaza,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: ColorUtility.textColor2,
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    _buildSearchBar(context),
-                    SizedBox(height: 20.h),
-                    _buildSectionHeader(
-                      AppLocalizations.of(context)!.categories,
-                      context,
-                    ),
-                    SizedBox(height: 10.h),
-                    _buildCategorySection(),
-                    SizedBox(height: 20.h),
-                    _buildSectionHeader(
-                      AppLocalizations.of(context)!.newArrival,
-                      context,
-                    ),
-                    SizedBox(height: 10.h),
-                    _buildNewArrivalsSection(),
-                  ],
-                ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20.h),
+            _buildHeader(context),
+            SizedBox(height: 20.h),
+            Text(
+              AppLocalizations.of(context)!.hello,
+              style: TextStyle(
+                fontSize: 28.sp,
+                fontWeight: FontWeight.bold,
               ),
-            );
-          },
+            ),
+            Text(
+              AppLocalizations.of(context)!.welcomeToLaza,
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: ColorUtility.colorGray,
+              ),
+            ),
+
+            SizedBox(height: 20.h),
+            _buildSearchBar(context),
+            SizedBox(height: 20.h),
+            _buildSectionHeader(
+              AppLocalizations.of(context)!.categories,
+              context,
+            ),
+            SizedBox(height: 10.h),
+            _buildCategorySection(),
+            SizedBox(height: 20.h),
+            _buildSectionHeader(
+              AppLocalizations.of(context)!.newArrival,
+              context,
+            ),
+            SizedBox(height: 10.h),
+            _buildNewArrivalsSection(),
+          ],
         ),
       ),
     );
@@ -107,8 +101,10 @@ class HomeScreen extends StatelessWidget {
         IconButton(
           icon: SvgPicture.asset(
             "assets/svg/menu.svg",
-            colorFilter: ColorFilter.mode(Color(0xff1D1E20), BlendMode.dstIn),
-            // Color(0xff1D1E20),
+            colorFilter: const ColorFilter.mode(
+              Color(0xff1D1E20),
+              BlendMode.srcIn,
+            ),
             width: 30.r,
             height: 30.r,
           ),
@@ -117,7 +113,7 @@ class HomeScreen extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.shopping_bag_outlined,
-            color: Color(0xff1D1E20),
+            // color: Color(0xff1D1E20),
             size: 30.r,
           ),
           onPressed: () {},
@@ -134,7 +130,15 @@ class HomeScreen extends StatelessWidget {
             decoration: InputDecoration(
               hintText: AppLocalizations.of(context)!.search,
               hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
-              prefixIcon: Icon(Icons.search, color: Colors.grey, size: 22.r),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(14.0),
+                child: SvgPicture.asset(
+                  'assets/svg/Vector.svg',
+                  height: 10,
+                  width: 10,
+                ),
+              ),
+
               filled: true,
               fillColor: Colors.grey[200],
               border: OutlineInputBorder(
@@ -242,52 +246,8 @@ class HomeScreen extends StatelessWidget {
       ),
       itemCount: products.length,
       itemBuilder: (context, index) {
-        return _buildProductCard(products[index]);
+        return ProductCard(product: products[index]);
       },
-    );
-  }
-
-  Widget _buildProductCard(ProductEntity product) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.r),
-                  color: Colors.grey[200],
-                  image: DecorationImage(
-                    image: NetworkImage(product.imageUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 10.h,
-                right: 10.w,
-                child: Icon(
-                  Icons.favorite_border,
-                  color: Colors.grey,
-                  size: 22.r,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 8.h),
-        Text(
-          product.name,
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13.sp),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        Text(
-          '${product.price.toStringAsFixed(2)} USD',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp),
-        ),
-      ],
     );
   }
 }
