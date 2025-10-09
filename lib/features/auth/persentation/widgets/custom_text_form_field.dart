@@ -32,7 +32,7 @@ class CustomTextFormField extends StatelessWidget {
         labelStyle: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w400,
-          color: AppTheme.subtextColor,
+          color: AppTheme.colorGray,
         ),
       ),
     );

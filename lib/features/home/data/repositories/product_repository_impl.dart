@@ -7,9 +7,6 @@ import 'package:laza_ecommerce/features/home/data/data_sources/product_remote_da
 import 'package:laza_ecommerce/features/home/domain/entities/product_entity.dart';
 import 'package:laza_ecommerce/features/home/domain/repositories/product_repository.dart';
 
-import 'package:laza_ecommerce/features/home/data/models/product_model.dart';
-import 'package:laza_ecommerce/features/home/domain/repositories/category_repository.dart';
-
 class ProductRepositoryImpl implements ProductRepository {
   final InternetService internetService;
   final ProductRemoteDataSource productRemoteDataSource;
@@ -24,7 +21,9 @@ class ProductRepositoryImpl implements ProductRepository {
   ) async {
     if (await internetService.isConnected) {
       try {
-        final remoteProducts = await productRemoteDataSource.getProducts(params);
+        final remoteProducts = await productRemoteDataSource.getProducts(
+          params,
+        );
         return Right(remoteProducts);
       } on ServerException catch (e) {
         return Left(Failure(errMessage: e.errorModel.errorMessage));
@@ -34,4 +33,3 @@ class ProductRepositoryImpl implements ProductRepository {
     }
   }
 }
-

@@ -58,7 +58,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: AppTheme.primaryColor,
+        selectedItemColor: AppTheme.mainColor,
         unselectedItemColor: ColorUtility.colorGray,
         type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,

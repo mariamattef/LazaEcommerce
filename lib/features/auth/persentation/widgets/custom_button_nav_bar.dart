@@ -23,34 +23,39 @@ class CustomButtonNavBar extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              label,
-
-              style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-                color: AppTheme.colorGray,
-              ),
-            ),
-            TextButton(
-              onPressed: onPressed,
-              child: Text(
-                text ?? '',
-
+        Container(
+          height: 50,
+          width: double.infinity,
+          padding: EdgeInsets.all(10.0.r),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              Text(
+                label,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppTheme.textColor1,
+                  fontWeight: FontWeight.w500,
+                  color: AppTheme.colorGray,
                 ),
               ),
-            ),
-          ],
+              TextButton(
+                onPressed: onPressed,
+                child: Text(
+                  text ?? '',
+
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppTheme.textColor1,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
 
-        SizedBox(height: 8.h),
+        SizedBox(height: 15.h),
 
         GestureDetector(
           onTap: onTap,

@@ -5,13 +5,11 @@ abstract class InternetService {
 }
 
 class InternetServiceImpl implements InternetService {
-  // final InternetConnectionChecker internetConnectionChecker;
-  // InternetServiceImpl({required this.internetConnectionChecker});
+  final InternetConnectionChecker internetConnectionChecker;
+  InternetServiceImpl({required this.internetConnectionChecker});
 
   @override
   Future<bool> get isConnected {
-    final InternetConnectionChecker internetConnectionChecker =
-        InternetConnectionChecker.createInstance();
     return internetConnectionChecker.hasConnection;
   }
 }

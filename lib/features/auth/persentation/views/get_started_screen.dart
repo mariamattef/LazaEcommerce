@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:laza_ecommerce/features/auth/pesentation/views/login_screen.dart';
-import 'package:laza_ecommerce/features/auth/pesentation/views/signup_screen.dart';
-import 'package:laza_ecommerce/features/auth/pesentation/widgets/custom_button_nav_bar.dart';
-import 'package:laza_ecommerce/features/auth/pesentation/widgets/custom_icon_elevation_button.dart';
-import 'package:laza_ecommerce/features/auth/pesentation/widgets/title_widget.dart';
+import 'package:laza_ecommerce/features/auth/persentation/views/signin_screen.dart';
+import 'package:laza_ecommerce/features/auth/persentation/views/signup_screen.dart';
+import 'package:laza_ecommerce/features/auth/persentation/widgets/custom_button_nav_bar.dart';
+import 'package:laza_ecommerce/features/auth/persentation/widgets/custom_icon_elevation_button.dart';
+import 'package:laza_ecommerce/features/auth/persentation/widgets/title_widget.dart';
 
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({super.key});
@@ -60,7 +60,7 @@ class GetStartedScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
+            MaterialPageRoute(builder: (context) => SignInScreen()),
           );
         },
         textFixed: 'Create an Account',

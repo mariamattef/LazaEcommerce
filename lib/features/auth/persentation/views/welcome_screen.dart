@@ -104,7 +104,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                   ? Colors.white
                                   : AppTheme.colorGray,
                               backgroundColor: _activeIndex == 0
-                                  ? AppTheme.primaryColor
+                                  ? AppTheme.mainColor
                                   : AppTheme.lightGray,
 
                               elevation: 0,
@@ -135,7 +135,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                                   ? Colors.white
                                   : AppTheme.colorGray,
                               backgroundColor: _activeIndex == 1
-                                  ? AppTheme.primaryColor
+                                  ? AppTheme.mainColor
                                   : AppTheme.lightGray,
                               elevation: 0,
                             ),

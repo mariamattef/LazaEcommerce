@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xFF8843E8);
   static const Color primaryColorLight = Color(0xFFB0A3E5);
-  static const Color textColor = Color(0xFF333333);
-  static const Color subtextColor = Color(0xFF888888);
   static const Color backgroundColor = Colors.white;
   static const Color errorColor = Colors.redAccent;
   static const secondryColor = Color(0xff34C559);
@@ -15,48 +13,47 @@ class AppTheme {
 
   static ThemeData get theme {
     return ThemeData(
-      primaryColor: primaryColor,
+      primaryColor: mainColor,
       scaffoldBackgroundColor: backgroundColor,
-      fontFamily:
-          'Poppins', 
+      fontFamily: 'Inter',
       appBarTheme: const AppBarTheme(
         backgroundColor: backgroundColor,
         elevation: 0,
-        iconTheme: IconThemeData(color: textColor),
+        iconTheme: IconThemeData(color: textColor1),
       ),
 
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontSize: 28.0,
           fontWeight: FontWeight.bold,
-          color: textColor,
+          color: textColor1,
         ),
         displayMedium: TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.bold,
-          color: textColor,
+          color: textColor1,
         ),
-        titleMedium: TextStyle(fontSize: 16.0, color: subtextColor),
-        bodyLarge: TextStyle(fontSize: 14.0, color: textColor),
+        titleMedium: TextStyle(fontSize: 16.0, color: textColor1),
+        bodyLarge: TextStyle(fontSize: 14.0, color: colorGray),
       ),
 
       inputDecorationTheme: InputDecorationTheme(
-        labelStyle: const TextStyle(color: subtextColor),
+        labelStyle: const TextStyle(color: textColor1),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.black12),
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: primaryColor),
+          borderSide: BorderSide(color: mainColor),
         ),
       ),
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: primaryColor,
+          backgroundColor: mainColor,
           minimumSize: const Size(double.infinity, 50),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),

@@ -16,47 +16,46 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20.h),
-            _buildHeader(context),
-            SizedBox(height: 20.h),
-            Text(
-              AppLocalizations.of(context)!.hello,
-              style: TextStyle(
-                fontSize: 28.sp,
-                fontWeight: FontWeight.bold,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20.h),
+              _buildHeader(context),
+              SizedBox(height: 20.h),
+              Text(
+                AppLocalizations.of(context)!.hello,
+                style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
               ),
-            ),
-            Text(
-              AppLocalizations.of(context)!.welcomeToLaza,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: ColorUtility.colorGray,
+              Text(
+                AppLocalizations.of(context)!.welcomeToLaza,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: ColorUtility.colorGray,
+                ),
               ),
-            ),
 
-            SizedBox(height: 20.h),
-            _buildSearchBar(context),
-            SizedBox(height: 20.h),
-            _buildSectionHeader(
-              AppLocalizations.of(context)!.categories,
-              context,
-            ),
-            SizedBox(height: 10.h),
-            _buildCategorySection(),
-            SizedBox(height: 20.h),
-            _buildSectionHeader(
-              AppLocalizations.of(context)!.newArrival,
-              context,
-            ),
-            SizedBox(height: 10.h),
-            _buildNewArrivalsSection(),
-          ],
+              SizedBox(height: 20.h),
+              _buildSearchBar(context),
+              SizedBox(height: 20.h),
+              _buildSectionHeader(
+                AppLocalizations.of(context)!.categories,
+                context,
+              ),
+              SizedBox(height: 10.h),
+              _buildCategorySection(),
+              SizedBox(height: 20.h),
+              _buildSectionHeader(
+                AppLocalizations.of(context)!.newArrival,
+                context,
+              ),
+              SizedBox(height: 10.h),
+              _buildNewArrivalsSection(),
+            ],
+          ),
         ),
       ),
     );
