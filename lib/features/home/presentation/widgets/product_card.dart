@@ -21,7 +21,9 @@ class _ProductCardState extends State<ProductCard> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DetailsScreen()),
+          MaterialPageRoute(
+            builder: (context) => ProductDetailScreen(product: widget.product),
+          ),
         );
       },
       child: Column(
@@ -31,12 +33,30 @@ class _ProductCardState extends State<ProductCard> {
             child: Stack(
               children: [
                 Container(
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
                     color: Colors.grey[200],
-                    image: DecorationImage(
-                      image: NetworkImage(widget.product.imageUrl),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.network(
+                      widget.product.imageUrl ??
+                          'https://via.placeholder.com/150',
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Center(
+                        child: Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                          size: 40.r,
+                        ),
+                      ),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return const Center(child: CircularProgressIndicator());
+                      },
                     ),
                   ),
                 ),
@@ -61,8 +81,14 @@ class _ProductCardState extends State<ProductCard> {
           ),
           SizedBox(height: 8.h),
           Text(
+            widget.product.category.id,
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 11.sp),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
             widget.product.name,
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13.sp),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 11.sp),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

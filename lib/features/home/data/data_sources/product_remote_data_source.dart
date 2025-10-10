@@ -17,9 +17,13 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<ProductModel>> getProducts(ProductParams params) async {
     try {
+      final Map<String, dynamic> queryParameters = {};
+      if (params.id.isNotEmpty) {
+        queryParameters['category'] = params.id;
+      }
       final response = await api.get(
         EndPoints.getProducts,
-        queryParameters: {'id': params.id},
+        queryParameters: queryParameters,
       );
       final List<dynamic> data = response['items'];
       final products = data.map((json) => ProductModel.fromJson(json)).toList();

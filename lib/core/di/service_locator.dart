@@ -17,8 +17,13 @@ import 'package:laza_ecommerce/features/home/domain/repositories/category_reposi
 import 'package:laza_ecommerce/features/home/domain/repositories/product_repository.dart';
 import 'package:laza_ecommerce/features/home/domain/usecases/get_categories_usecase.dart';
 import 'package:laza_ecommerce/features/home/domain/usecases/product_usecase.dart';
-import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/category_cubit.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/product_cubit/product_cubit.dart';
+import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/category_cubit.dart';
+import 'package:laza_ecommerce/features/review/data/data_source/review_remote_data_source.dart';
+import 'package:laza_ecommerce/features/review/data/repos/review_repository_impl.dart';
+import 'package:laza_ecommerce/features/review/domain/repos/review_repository.dart';
+import 'package:laza_ecommerce/features/review/domain/use_cases/get_reviews_usecase.dart';
+import 'package:laza_ecommerce/features/review/presentation/cubits/cubit/reviews_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -79,5 +84,22 @@ void setupServiceLocator() {
   );
   sl.registerLazySingleton<CategoryRemoteDataSource>(
     () => CategoryRemoteDataSourceImpl(sl()),
+  );
+
+  // Review Feature
+  // Cubit
+  sl.registerFactory(() => ReviewsCubit(getReviewsUseCase: sl()));
+
+  // Use Cases
+  sl.registerLazySingleton(() => GetReviewsUseCase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<ReviewRepository>(
+    () => ReviewRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  // Data Sources
+  sl.registerLazySingleton<ReviewRemoteDataSource>(
+    () => ReviewRemoteDataSourceImpl(dio: sl()),
   );
 }

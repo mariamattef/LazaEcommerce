@@ -16,17 +16,17 @@ class CategoryRepositoryImpl implements CategoryRepository {
   });
 
   @override
- Future<Either<Failure, List<CategoryEntity>>> getCategories() async {
+  Future<Either<Failure, List<CategoryEntity>>> getCategories() async {
     if (await internetService.isConnected) {
       try {
         final remoteCategory = await categoryRemoteDataSource.getCategories();
-        print( 'remoteCategory is >>>>>>>>$remoteCategory');
+        print('remoteCategory is >>>>>>>>$remoteCategory');
         return Right(remoteCategory);
       } on ServerException catch (e) {
-        return Left(Failure(errMessage: e.errorModel.errorMessage));
+        return Left(ServerFailure(e.errorModel.errorMessage));
       }
     } else {
-      return Left(Failure(errMessage: 'No internet connection'));
+      return Left(ServerFailure('No internet connection'));
     }
   }
 }

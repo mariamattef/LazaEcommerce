@@ -8,6 +8,7 @@ import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/
 import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/category_state.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/product_cubit/product_cubit.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/product_cubit/product_state.dart';
+import 'package:laza_ecommerce/features/home/presentation/widgets/custom_drawer.dart';
 import 'package:laza_ecommerce/features/home/presentation/widgets/product_card.dart';
 import 'package:laza_ecommerce/l10n/app_localizations.dart';
 
@@ -16,7 +17,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: scaffoldKey,
+      drawer: const CustomDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -24,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20.h),
-              _buildHeader(context),
+              _buildHeader(context, scaffoldKey),
               SizedBox(height: 20.h),
               Text(
                 AppLocalizations.of(context)!.hello,
@@ -37,7 +41,6 @@ class HomeScreen extends StatelessWidget {
                   color: ColorUtility.colorGray,
                 ),
               ),
-
               SizedBox(height: 20.h),
               _buildSearchBar(context),
               SizedBox(height: 20.h),
@@ -51,6 +54,9 @@ class HomeScreen extends StatelessWidget {
               _buildSectionHeader(
                 AppLocalizations.of(context)!.newArrival,
                 context,
+                onPressed: () {
+                  context.read<ProductCubit>().getProducts('');
+                },
               ),
               SizedBox(height: 10.h),
               _buildNewArrivalsSection(),
@@ -91,9 +97,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // All other helper methods now use ScreenUtil for responsive sizing
-
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(
+      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -107,12 +112,11 @@ class HomeScreen extends StatelessWidget {
             width: 30.r,
             height: 30.r,
           ),
-          onPressed: () => Scaffold.of(context).openDrawer(),
+          onPressed: () => scaffoldKey.currentState?.openDrawer(),
         ),
         IconButton(
           icon: Icon(
             Icons.shopping_bag_outlined,
-            // color: Color(0xff1D1E20),
             size: 30.r,
           ),
           onPressed: () {},
@@ -137,7 +141,6 @@ class HomeScreen extends StatelessWidget {
                   width: 10,
                 ),
               ),
-
               filled: true,
               fillColor: Colors.grey[200],
               border: OutlineInputBorder(
@@ -163,7 +166,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title, BuildContext context) {
+  Widget _buildSectionHeader(
+    String title,
+    BuildContext context, {
+    VoidCallback? onPressed,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -172,7 +179,7 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: onPressed,
           child: Text(
             AppLocalizations.of(context)!.viewAll,
             style: TextStyle(color: Colors.grey, fontSize: 13.sp),
@@ -192,7 +199,7 @@ class HomeScreen extends StatelessWidget {
           final category = categories[index];
           return GestureDetector(
             onTap: () {
-              context.read<ProductCubit>().getProducts(category.id);
+              context.read<ProductCubit>().getProducts(category.name);
             },
             child: Container(
               margin: EdgeInsets.only(right: 10.w),

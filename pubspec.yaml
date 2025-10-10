@@ -8,24 +8,26 @@ environment:
   sdk: ^3.8.0
 
 dependencies:
+  carousel_slider: ^5.1.1
   cupertino_icons: ^1.0.8
-  flutter_launcher_icons: ^0.14.4
   dartz: ^0.10.1
   dio: ^5.9.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_launcher_icons: ^0.14.4
+  flutter_localizations:
+    sdk: flutter
   flutter_native_splash: ^2.4.6
+  flutter_rating_bar: ^4.0.1
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.1
   get_it: ^8.2.0
   internet_connection_checker: ^3.0.1
+  intl: any
   paymob_payment: ^0.0.1+1
   shared_preferences: ^2.5.3
-  flutter_localizations:
-    sdk: flutter
-  intl: any
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -41,16 +43,14 @@ flutter:
     - assets/images/
     - assets/svg/
   # flutter_native_splash:
-  #   color: "#9775FA" 
-  #   image: assets/images/splash.png 
+  #   color: "#9775FA"
+  #   image: assets/images/splash.png
   #   android: true
   #   ios: true
   #   fullscreen: true
-
   #   android_12:
   #     color: "#9775FA"
   #     image: assets/images/splash.png
-
   fonts:
     - family: Inter
       fonts:
@@ -72,5 +72,3 @@ flutter:
           weight: 700
         - asset: assets/fonts/Inter_24pt-ExtraBold.ttf
           weight: 800
-
-

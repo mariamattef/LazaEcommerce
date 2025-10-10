@@ -11,7 +11,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     emit(GetCategoryLoading());
     final result = await getCategoriesUseCase();
     result.fold(
-      (failure) => emit(GetCategoryFailure(failure.errMessage)),
+      (failure) => emit(GetCategoryFailure(failure.message)),
       (categories) => emit(GetCategorySuccess(categories)),
     );
   }

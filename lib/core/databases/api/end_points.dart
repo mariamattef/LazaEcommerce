@@ -6,6 +6,7 @@ class EndPoints {
   static const String getCategories = "/api/categories";
   static const String refreshToken = "/api/auth/refresh-token";
   static const String validateOtp = "/api/auth/validate-otp";
+  static const String getReviews = "/api/reviews/{productId}";
 }
 
 class ApiKey {

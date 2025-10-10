@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:laza_ecommerce/core/errors/failure.dart';
 import 'package:laza_ecommerce/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:laza_ecommerce/features/auth/domain/repos/user_repository.dart';
@@ -26,9 +27,11 @@ class UserRepositoryImpl implements UserRepository {
         lastName: lastName,
       );
       return right(unit);
-    } catch (e) {
+    } on DioException catch (e) {
       return left(
-        Failure(errMessage: e.toString().replaceAll('Exception: ', ' ')),
+        ServerFailure(
+          e.response?.data['message'] ?? e.message ?? 'Sign up failed',
+        ),
       );
     }
   }
@@ -67,9 +70,11 @@ class UserRepositoryImpl implements UserRepository {
       }
 
       return right(unit);
-    } catch (e) {
+    } on DioException catch (e) {
       return left(
-        Failure(errMessage: e.toString().replaceAll('Exception: ', '')),
+        ServerFailure(
+          e.response?.data['message'] ?? e.message ?? 'Sign in failed',
+        ),
       );
     }
   }

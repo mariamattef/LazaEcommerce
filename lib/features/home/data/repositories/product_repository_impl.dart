@@ -26,10 +26,10 @@ class ProductRepositoryImpl implements ProductRepository {
         );
         return Right(remoteProducts);
       } on ServerException catch (e) {
-        return Left(Failure(errMessage: e.errorModel.errorMessage));
+        return Left(ServerFailure(e.errorModel.errorMessage));
       }
     } else {
-      return Left(Failure(errMessage: 'No internet connection'));
+      return Left(ServerFailure('No internet connection'));
     }
   }
 }

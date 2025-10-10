@@ -10,10 +10,11 @@ class ProductCubit extends Cubit<ProductState> {
   ProductCubit(this.productUsecase) : super(ProductInitial());
 
   Future<void> getProducts(String id) async {
+    emit(ProductInitial());
     emit(ProductLoading());
     final result = await productUsecase.call(params: ProductParams(id: id));
     result.fold(
-      (failure) => emit(ProductFailure(failure.errMessage)),
+      (failure) => emit(ProductFailure(failure.message)),
       (products) => emit(Productsuccess(products)),
     );
   }

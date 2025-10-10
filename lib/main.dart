@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +11,7 @@ import 'package:laza_ecommerce/features/home/domain/usecases/get_categories_usec
 import 'package:laza_ecommerce/features/home/domain/usecases/product_usecase.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/category_cubit.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/product_cubit/product_cubit.dart';
+import 'package:laza_ecommerce/features/review/presentation/cubits/cubit/reviews_cubit.dart';
 import 'package:laza_ecommerce/l10n/app_localizations.dart';
 
 void main() async {
@@ -17,7 +19,7 @@ void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
 
-  setupServiceLocator(); // Call setupServiceLocator here
+  setupServiceLocator();
   runApp(const LazaApp());
 }
 
@@ -30,11 +32,7 @@ class LazaApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) {
-            // These usecases should also be registered in get_it for consistency
-            // but for now this will work.
-            // You should register ProductUsecase and GetCategoriesUseCase in service_locator.dart
-            // and then retrieve them using sl() here.
-            return ProductCubit(sl<ProductUsecase>())..getProducts('9');
+            return ProductCubit(sl<ProductUsecase>())..getProducts('');
           },
         ),
         BlocProvider(
@@ -43,6 +41,7 @@ class LazaApp extends StatelessWidget {
           },
         ),
         BlocProvider(create: (context) => sl<AuthCubit>()),
+        BlocProvider(create: (context) => sl<ReviewsCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(375, 812),

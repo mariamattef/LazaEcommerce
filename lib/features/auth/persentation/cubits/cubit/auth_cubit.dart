@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
       lastName: lastName,
     );
     result.fold(
-      (failure) => emit(AuthFailure(errMessage: failure.errMessage)),
+      (failure) => emit(AuthFailure(errMessage: failure.message)),
       (_) => emit(AuthSuccess()),
     );
   }
@@ -37,7 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
       password: password,
     );
     result.fold(
-      (failure) => emit(AuthFailure(errMessage: failure.errMessage)),
+      (failure) => emit(AuthFailure(errMessage: failure.message)),
       (_) => emit(AuthSuccess()),
     );
   }

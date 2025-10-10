@@ -36,14 +36,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } on DioException catch (e) {
       if (e.response != null) {
         print("Error in signUp: ${e.response}");
-        throw Exception(
-          e.response?.data['errors']?['email']?[0] ??
-              e.response?.data['message'] ??
-              'An error occurred',
-        );
+        throw Exception(_parseDioError(e));
       } else {
         print("Error in signUp: ${e.message}");
-        throw Exception('Network Error: Please check your internet connection and try again.');
+        throw Exception(
+            'Network Error: Please check your internet connection and try again.');
       }
     }
   }
@@ -62,11 +59,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } on DioException catch (e) {
       if (e.response != null) {
         print("Error in signIn: ${e.response}");
-        throw Exception(e.response?.data['message'] ?? 'An error occurred');
+        throw Exception(_parseDioError(e));
       } else {
         print("Error in signIn: ${e.message}");
-        throw Exception('Network Error: Please check your internet connection and try again.');
+        throw Exception(
+            'Network Error: Please check your internet connection and try again.');
       }
     }
+  }
+
+  String _parseDioError(DioException e) {
+    final responseData = e.response?.data;
+    if (responseData == null) return 'An unknown error occurred.';
+
+    // Handle structured validation errors
+    if (responseData is Map<String, dynamic> &&
+        responseData.containsKey('errors')) {
+      final errors = responseData['errors'] as Map<String, dynamic>;
+      return errors.entries
+          .map((entry) => '${entry.key}: ${(entry.value as List).join(', ')}')
+          .join('\n');
+    }
+
+    // Handle simple message errors
+    return responseData['message']?.toString() ?? e.message ?? 'An error occurred';
   }
 }
