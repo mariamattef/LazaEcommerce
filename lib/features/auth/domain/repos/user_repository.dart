@@ -8,5 +8,5 @@ abstract class UserRepository {
     required String firstName,
     required String lastName,
   });
-  Future<Either<Failure, Unit>> signIn({required String email, required String password});
+  Future<Either<Failure, Unit>> signIn({required String email, required String password, required bool rememberMe});
 }

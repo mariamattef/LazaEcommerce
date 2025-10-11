@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laza_ecommerce/core/di/service_locator.dart';
 import 'package:laza_ecommerce/core/utiles/http_overrides.dart';
 import 'package:laza_ecommerce/features/auth/persentation/cubits/cubit/auth_cubit.dart';
-import 'package:laza_ecommerce/features/auth/persentation/views/welcome_screen.dart';
+import 'package:laza_ecommerce/features/auth/persentation/views/initial_screen.dart';
 import 'package:laza_ecommerce/features/home/domain/usecases/get_categories_usecase.dart';
 import 'package:laza_ecommerce/features/home/domain/usecases/product_usecase.dart';
 import 'package:laza_ecommerce/features/home/presentation/cubits/category_cubit/category_cubit.dart';
@@ -62,7 +62,7 @@ class LazaApp extends StatelessWidget {
             home: child,
           );
         },
-        child: const WelcomeScreen(),
+        child: const InitialScreen(),
       ),
     );
   }

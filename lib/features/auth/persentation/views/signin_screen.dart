@@ -8,10 +8,15 @@ import 'package:laza_ecommerce/features/auth/persentation/widgets/custom_button_
 import 'package:laza_ecommerce/features/auth/persentation/widgets/custom_text_form_field.dart';
 import 'package:laza_ecommerce/features/auth/persentation/widgets/title_widget.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
-  // bool _rememberMe = true;
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  bool _rememberMe = true;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,6 @@ class SignInScreen extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => const HomeScreen()),
           );
-         
         } else if (state is AuthFailure) {
           Navigator.pop(context);
           ScaffoldMessenger.of(
@@ -55,7 +59,6 @@ class SignInScreen extends StatelessWidget {
               Text(
                 "Please enter your data to continue",
                 textAlign: TextAlign.center,
-
                 style: TextStyle(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w400,
@@ -104,14 +107,14 @@ class SignInScreen extends StatelessWidget {
                       color: AppTheme.textColor1,
                     ),
                   ),
-                  // Transform.scale(
-                  //   scale: 0.7,
-                  //   child: Switch(
-                  //     value: _rememberMe,
-                  //     onChanged: (value) => setState(() => _rememberMe = value),
-                  //     trackColor: WidgetStatePropertyAll(AppTheme.secondryColor),
-                  //   ),
-                  // ),
+                  Transform.scale(
+                    scale: 0.7,
+                    child: Switch(
+                      value: _rememberMe,
+                      onChanged: (value) => setState(() => _rememberMe = value),
+                      trackColor: WidgetStatePropertyAll(AppTheme.secondryColor),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 32),
@@ -124,14 +127,10 @@ class SignInScreen extends StatelessWidget {
           textFixed: 'Login',
           onTap: () {
             context.read<AuthCubit>().signIn(
-              email: emailController.text,
-              password: passwordController.text,
-            );
-
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const HomeScreen()),
-            // );
+                  email: emailController.text,
+                  password: passwordController.text,
+                  rememberMe: _rememberMe,
+                );
           },
         ),
       ),

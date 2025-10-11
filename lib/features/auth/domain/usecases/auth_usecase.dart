@@ -24,8 +24,9 @@ class AuthUsecase {
     Future<Either<Failure, Unit>> callSignin({
     required String email,
     required String password,
+    required bool rememberMe,
   }) async {
-    return await userRepository.signIn(email: email, password: password);
+    return await userRepository.signIn(email: email, password: password, rememberMe: rememberMe);
   }
 
 }

@@ -11,6 +11,7 @@ class ApiInterceptor extends Interceptor {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
+    print(token);
 
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';

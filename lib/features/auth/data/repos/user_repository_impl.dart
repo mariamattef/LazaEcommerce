@@ -36,10 +36,10 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  @override
   Future<Either<Failure, Unit>> signIn({
     required String email,
     required String password,
+    required bool rememberMe,
   }) async {
     try {
       final response = await authRemoteDataSource.signIn(
@@ -47,26 +47,26 @@ class UserRepositoryImpl implements UserRepository {
         password: password,
       );
 
-      final prefs = await SharedPreferences.getInstance();
+      if (rememberMe) {
+        final prefs = await SharedPreferences.getInstance();
+        Map<String, dynamic> responseData;
+        if (response.data is String) {
+          responseData = jsonDecode(response.data) as Map<String, dynamic>;
+        } else if (response.data is Map<String, dynamic>) {
+          responseData = response.data;
+        } else {
+          throw Exception('Unexpected response format from server');
+        }
 
-      // Safely parse the response data
-      Map<String, dynamic> responseData;
-      if (response.data is String) {
-        responseData = jsonDecode(response.data) as Map<String, dynamic>;
-      } else if (response.data is Map<String, dynamic>) {
-        responseData = response.data;
-      } else {
-        throw Exception('Unexpected response format from server');
-      }
+        final accessToken = responseData['accessToken'];
+        final refreshToken = responseData['refreshToken'];
 
-      final accessToken = responseData['accessToken'];
-      final refreshToken = responseData['refreshToken'];
-
-      if (accessToken != null && refreshToken != null) {
-        await prefs.setString('token', accessToken);
-        await prefs.setString('refresh_token', refreshToken);
-      } else {
-        throw Exception('Tokens not found in response');
+        if (accessToken != null && refreshToken != null) {
+          await prefs.setString('token', accessToken);
+          await prefs.setString('refresh_token', refreshToken);
+        } else {
+          throw Exception('Tokens not found in response');
+        }
       }
 
       return right(unit);
