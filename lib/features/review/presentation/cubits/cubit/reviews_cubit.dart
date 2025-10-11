@@ -25,7 +25,7 @@ class ReviewsCubit extends Cubit<ReviewsState> {
 
     result.fold(
       (failure) {
-        emit(ReviewsError('Failed to fetch reviews: ${failure.message}'));
+        emit(ReviewsError('Failed to fetch reviews: ${failure.errorMessage}'));
       },
       (reviewsResponse) {
         emit(ReviewsLoaded(reviewsResponse));

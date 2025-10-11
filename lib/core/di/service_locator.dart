@@ -8,6 +8,8 @@ import 'package:laza_ecommerce/features/auth/data/data_source/auth_remote_data_s
 import 'package:laza_ecommerce/features/auth/data/repos/user_repository_impl.dart';
 import 'package:laza_ecommerce/features/auth/domain/repos/user_repository.dart';
 import 'package:laza_ecommerce/features/auth/domain/usecases/auth_usecase.dart';
+import 'package:laza_ecommerce/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:laza_ecommerce/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:laza_ecommerce/features/auth/persentation/cubits/cubit/auth_cubit.dart';
 import 'package:laza_ecommerce/features/home/data/data_sources/category_remote_data_source.dart';
 import 'package:laza_ecommerce/features/home/data/data_sources/product_remote_data_source.dart';
@@ -38,14 +40,17 @@ void setupServiceLocator() {
     () => InternetServiceImpl(internetConnectionChecker: sl()),
   );
 
+ 
+ 
   // Auth Feature
   // Cubit
-
-  sl.registerFactory(() => AuthCubit(authUsecase: sl()));
+  sl.registerFactory(
+      () => AuthCubit(authUsecase: sl(), verifyOtpUseCase: sl(), logoutUseCase: sl()));
 
   // Use Cases
-
   sl.registerLazySingleton(() => AuthUsecase(userRepository: sl()));
+  sl.registerLazySingleton(() => VerifyOtpUseCase(userRepository: sl()));
+  sl.registerLazySingleton(() => LogoutUseCase(userRepository: sl()));
 
   // Repository
   sl.registerLazySingleton<UserRepository>(
@@ -53,18 +58,26 @@ void setupServiceLocator() {
   );
 
   // Data Sources
-
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl()),
   );
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   // home feature
   // cubits
   sl.registerFactory(() => ProductCubit(sl()));
   sl.registerFactory(() => CategoryCubit(sl()));
+ 
   //usecases
   sl.registerLazySingleton(() => ProductUsecase(sl()));
   sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
+ 
   // repos
   sl.registerLazySingleton<ProductRepository>(
     () => ProductRepositoryImpl(
@@ -78,6 +91,7 @@ void setupServiceLocator() {
       categoryRemoteDataSource: sl(),
     ),
   );
+ 
   // data sources
   sl.registerLazySingleton<ProductRemoteDataSource>(
     () => ProductRemoteDataSourceImpl(sl()),
@@ -86,6 +100,10 @@ void setupServiceLocator() {
     () => CategoryRemoteDataSourceImpl(sl()),
   );
 
+ 
+ 
+ 
+ 
   // Review Feature
   // Cubit
   sl.registerFactory(() => ReviewsCubit(getReviewsUseCase: sl()));

@@ -16,9 +16,7 @@ import 'package:laza_ecommerce/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   HttpOverrides.global = MyHttpOverrides();
-
   setupServiceLocator();
   runApp(const LazaApp());
 }

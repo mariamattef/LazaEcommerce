@@ -66,7 +66,6 @@ class CustomButtonNavBar extends StatelessWidget {
             decoration: BoxDecoration(color: AppTheme.mainColor),
             child: Text(
               textFixed,
-              // "Create an Account",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 17.sp,

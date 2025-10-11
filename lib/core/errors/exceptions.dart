@@ -61,13 +61,26 @@ class UnknownException extends ServerException {
   UnknownException(super.errorModel);
 }
 
+class EmailAlreadyInUseException extends ServerException {
+  EmailAlreadyInUseException(super.errorModel);
+}
+
+class InvalidCredentialsException extends ServerException {
+  InvalidCredentialsException(super.errorModel);
+}
+
+class InvalidOtpException extends ServerException {
+  InvalidOtpException(super.errorModel);
+}
+
 ErrorModel _createErrorModel(dynamic data, int? statusCode) {
   print('data type: ${data.runtimeType}');
   print('data: $data');
   if (data is String) {
     return ErrorModel(errorMessage: data, status: statusCode);
   } else if (data is Map) {
-    return ErrorModel.fromJson(data);
+    final Map<String, dynamic> jsonData = Map<String, dynamic>.from(data);
+    return ErrorModel.fromJson(jsonData);
   } else {
     return ErrorModel(errorMessage: 'Unknown error format', status: statusCode);
   }

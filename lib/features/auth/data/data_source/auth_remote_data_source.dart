@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:laza_ecommerce/core/errors/error_model.dart';
+import 'package:laza_ecommerce/core/errors/exceptions.dart';
 
 abstract class AuthRemoteDataSource {
   Future<Response> signUp({
@@ -8,6 +10,8 @@ abstract class AuthRemoteDataSource {
     required String lastName,
   });
   Future<Response> signIn({required String email, required String password});
+  Future<Response> verifyOtp({required String email, required String otp});
+  Future<Response> logout();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -34,14 +38,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return response;
     } on DioException catch (e) {
-      if (e.response != null) {
-        print("Error in signUp: ${e.response}");
-        throw Exception(_parseDioError(e));
-      } else {
-        print("Error in signUp: ${e.message}");
-        throw Exception(
-            'Network Error: Please check your internet connection and try again.');
+      if (e.response?.statusCode == 400 &&
+          e.response?.data.toString().contains('Email is already in use') == true) {
+        throw EmailAlreadyInUseException(
+            ErrorModel(errorMessage: 'Email is already in use'));
       }
+      handleDioException(e);
+      throw ServerException(ErrorModel(
+          errorMessage: 'An unexpected error occurred', status: 500));
     }
   }
 
@@ -57,31 +61,45 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return response;
     } on DioException catch (e) {
-      if (e.response != null) {
-        print("Error in signIn: ${e.response}");
-        throw Exception(_parseDioError(e));
-      } else {
-        print("Error in signIn: ${e.message}");
-        throw Exception(
-            'Network Error: Please check your internet connection and try again.');
+      if (e.response?.statusCode == 400) {
+        throw InvalidCredentialsException(
+            ErrorModel(errorMessage: 'Invalid credentials'));
       }
+      handleDioException(e);
+      throw ServerException(ErrorModel(
+          errorMessage: 'An unexpected error occurred', status: 500));
     }
   }
 
-  String _parseDioError(DioException e) {
-    final responseData = e.response?.data;
-    if (responseData == null) return 'An unknown error occurred.';
-
-    // Handle structured validation errors
-    if (responseData is Map<String, dynamic> &&
-        responseData.containsKey('errors')) {
-      final errors = responseData['errors'] as Map<String, dynamic>;
-      return errors.entries
-          .map((entry) => '${entry.key}: ${(entry.value as List).join(', ')}')
-          .join('\n');
+  @override
+  Future<Response> verifyOtp({required String email, required String otp}) async {
+    try {
+      final response = await dio.post(
+        'https://accessories-eshop.runasp.net/api/auth/verify-otp',
+        data: {'email': email, 'otp': otp},
+      );
+      return response;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        throw InvalidOtpException(ErrorModel(errorMessage: 'Invalid OTP'));
+      }
+      handleDioException(e);
+      throw ServerException(ErrorModel(
+          errorMessage: 'An unexpected error occurred', status: 500));
     }
+  }
 
-    // Handle simple message errors
-    return responseData['message']?.toString() ?? e.message ?? 'An error occurred';
+  @override
+  Future<Response> logout() async {
+    try {
+      final response = await dio.post(
+        'https://accessories-eshop.runasp.net/api/auth/logout',
+      );
+      return response;
+    } on DioException catch (e) {
+      handleDioException(e);
+      throw ServerException(ErrorModel(
+          errorMessage: 'An unexpected error occurred', status: 500));
+    }
   }
 }

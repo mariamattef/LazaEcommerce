@@ -1,4 +1,3 @@
-import 'package:laza_ecommerce/features/home/presentation/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:laza_ecommerce/features/auth/persentation/cubits/cubit/auth_cubi
 import 'package:laza_ecommerce/features/auth/persentation/widgets/custom_button_nav_bar.dart';
 import 'package:laza_ecommerce/features/auth/persentation/widgets/custom_text_form_field.dart';
 import 'package:laza_ecommerce/features/auth/persentation/widgets/title_widget.dart';
+import 'package:laza_ecommerce/features/home/presentation/views/home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -50,12 +50,12 @@ class _SignInScreenState extends State<SignInScreen> {
       child: Scaffold(
         appBar: AppBar(leading: const BackButton()),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
+          padding:  EdgeInsets.all(24.0.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 40),
-              TitleWidget(title: "Login"),
+               SizedBox(height: 40.h),
+              TitleWidget(title: "Welcome"),
               Text(
                 "Please enter your data to continue",
                 textAlign: TextAlign.center,
@@ -95,14 +95,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+               SizedBox(height: 24.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Remember me",
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       color: AppTheme.textColor1,
                     ),
@@ -112,12 +112,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Switch(
                       value: _rememberMe,
                       onChanged: (value) => setState(() => _rememberMe = value),
-                      trackColor: WidgetStatePropertyAll(AppTheme.secondryColor),
+                      trackColor: WidgetStatePropertyAll(
+                        AppTheme.secondryColor,
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
+               SizedBox(height: 32.h),
             ],
           ),
         ),
@@ -127,10 +129,10 @@ class _SignInScreenState extends State<SignInScreen> {
           textFixed: 'Login',
           onTap: () {
             context.read<AuthCubit>().signIn(
-                  email: emailController.text,
-                  password: passwordController.text,
-                  rememberMe: _rememberMe,
-                );
+              email: emailController.text,
+              password: passwordController.text,
+              rememberMe: _rememberMe,
+            );
           },
         ),
       ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:laza_ecommerce/core/utiles/color_utiles.dart';
+import 'package:laza_ecommerce/features/auth/persentation/cubits/cubit/auth_cubit.dart';
+import 'package:laza_ecommerce/features/auth/persentation/views/signin_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -14,99 +17,124 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      elevation: 0,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border(right: BorderSide(color: Colors.blueAccent, width: 1)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 60.0,
-                left: 20.0,
-                right: 20.0,
-                bottom: 20.0,
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is LogoutLoading) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) =>
+                const Center(child: CircularProgressIndicator()),
+          );
+        } else if (state is LogoutSuccess) {
+          Navigator.pop(context); // Close the loading dialog
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const SignInScreen()),
+            (route) => false,
+          );
+        } else if (state is LogoutFailure) {
+          Navigator.pop(context); // Close the loading dialog
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errMessage)),
+          );
+        }
+      },
+      child: Drawer(
+        elevation: 0,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border(right: BorderSide(color: Colors.blueAccent, width: 1)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 60.0,
+                  left: 20.0,
+                  right: 20.0,
+                  bottom: 20.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      icon: SvgPicture.asset('assets/svg/menu1.svg'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    _buildProfileSection(),
+                  ],
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    icon: SvgPicture.asset('assets/svg/menu1.svg'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  _buildProfileSection(),
-                ],
+
+              // Divider
+              const Divider(color: Colors.black12, height: 1),
+              const SizedBox(height: 10),
+
+              _buildMenuItem(
+                icon: Icons.wb_sunny_outlined,
+                title: 'Dark Mode',
+                trailing: Switch(
+                  value: _isDarkMode,
+                  onChanged: (value) {
+                    setState(() {
+                      _isDarkMode = value;
+                    });
+                  },
+                  activeColor: Colors.blueAccent,
+                ),
               ),
-            ),
+              _buildMenuItem(
+                icon: Icons.info_outline,
+                title: 'Account Information',
+                onTap: () {},
+              ),
+              _buildMenuItem(
+                icon: Icons.lock_outline,
+                title: 'Password',
+                onTap: () {},
+              ),
+              _buildMenuItem(
+                icon: Icons.shopping_bag_outlined,
+                title: 'Order',
+                onTap: () {},
+              ),
+              _buildMenuItem(
+                icon: Icons.credit_card,
+                title: 'My Cards',
+                onTap: () {},
+              ),
+              _buildMenuItem(
+                icon: Icons.favorite_border,
+                title: 'Wishlist',
+                onTap: () {},
+              ),
+              _buildMenuItem(
+                icon: Icons.settings_outlined,
+                title: 'Settings',
+                onTap: () {},
+              ),
 
-            // Divider
-            const Divider(color: Colors.black12, height: 1),
-            const SizedBox(height: 10),
+              const Spacer(),
 
-            _buildMenuItem(
-              icon: Icons.wb_sunny_outlined,
-              title: 'Dark Mode',
-
-              trailing: Switch(
-                value: _isDarkMode,
-                onChanged: (value) {
-                  setState(() {
-                    _isDarkMode = value;
-                  });
+              _buildMenuItem(
+                icon: Icons.logout,
+                title: 'Logout',
+                isLogout: true,
+                onTap: () {
+                  context.read<AuthCubit>().logout();
                 },
-                activeColor: Colors.blueAccent,
               ),
-            ),
-            _buildMenuItem(
-              icon: Icons.info_outline,
-              title: 'Account Information',
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.lock_outline,
-              title: 'Password',
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.shopping_bag_outlined,
-              title: 'Order',
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.credit_card,
-              title: 'My Cards',
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.favorite_border,
-              title: 'Wishlist',
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              icon: Icons.settings_outlined,
-              title: 'Settings',
-              onTap: () {},
-            ),
 
-            const Spacer(),
-
-            _buildMenuItem(
-              icon: Icons.logout,
-              title: 'Logout',
-              isLogout: true,
-              onTap: () {},
-            ),
-
-            // Bottom padding
-            const SizedBox(height: 40),
-          ],
+              // Bottom padding
+              const SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

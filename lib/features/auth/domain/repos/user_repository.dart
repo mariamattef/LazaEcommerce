@@ -9,4 +9,9 @@ abstract class UserRepository {
     required String lastName,
   });
   Future<Either<Failure, Unit>> signIn({required String email, required String password, required bool rememberMe});
+
+  Future<Either<Failure, Unit>> verifyOtp(
+      {required String email, required String otp});
+
+  Future<Either<Failure, Unit>> logout();
 }

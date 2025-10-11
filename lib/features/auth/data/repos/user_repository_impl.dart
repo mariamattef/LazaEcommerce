@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
+import 'package:laza_ecommerce/core/errors/exceptions.dart';
 import 'package:laza_ecommerce/core/errors/failure.dart';
 import 'package:laza_ecommerce/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:laza_ecommerce/features/auth/domain/repos/user_repository.dart';
@@ -27,15 +27,15 @@ class UserRepositoryImpl implements UserRepository {
         lastName: lastName,
       );
       return right(unit);
-    } on DioException catch (e) {
-      return left(
-        ServerFailure(
-          e.response?.data['message'] ?? e.message ?? 'Sign up failed',
-        ),
-      );
+    } on EmailAlreadyInUseException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on Exception catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
-
+  @override
   Future<Either<Failure, Unit>> signIn({
     required String email,
     required String password,
@@ -70,12 +70,42 @@ class UserRepositoryImpl implements UserRepository {
       }
 
       return right(unit);
-    } on DioException catch (e) {
-      return left(
-        ServerFailure(
-          e.response?.data['message'] ?? e.message ?? 'Sign in failed',
-        ),
-      );
+    } on InvalidCredentialsException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on Exception catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> verifyOtp(
+      {required String email, required String otp}) async {
+    try {
+      await authRemoteDataSource.verifyOtp(email: email, otp: otp);
+      return right(unit);
+    } on InvalidOtpException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on Exception catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logout() async {
+    try {
+      await authRemoteDataSource.logout();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
+      await prefs.remove('refresh_token');
+      return right(unit);
+    } on ServerException catch (e) {
+      return left(ServerFailure(e.errorModel.errorMessage));
+    } on Exception catch (e) {
+      return left(ServerFailure(e.toString()));
     }
   }
 }

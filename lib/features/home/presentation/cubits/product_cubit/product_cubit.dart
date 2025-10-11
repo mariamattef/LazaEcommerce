@@ -14,7 +14,7 @@ class ProductCubit extends Cubit<ProductState> {
     emit(ProductLoading());
     final result = await productUsecase.call(params: ProductParams(id: id));
     result.fold(
-      (failure) => emit(ProductFailure(failure.message)),
+      (failure) => emit(ProductFailure(failure.errorMessage)),
       (products) => emit(Productsuccess(products)),
     );
   }

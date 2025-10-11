@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:laza_ecommerce/core/databases/api/api_consumer.dart';
 import 'package:laza_ecommerce/core/databases/api/api_interceptors.dart';
 import 'package:laza_ecommerce/core/databases/api/end_points.dart';
-import 'package:laza_ecommerce/core/errors/expentions.dart';
+import 'package:laza_ecommerce/core/errors/exceptions.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;

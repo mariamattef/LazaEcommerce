@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:laza_ecommerce/core/connection/network_info.dart';
-import 'package:laza_ecommerce/core/errors/expentions.dart';
+import 'package:laza_ecommerce/core/errors/exceptions.dart';
 import 'package:laza_ecommerce/core/errors/failure.dart';
 import 'package:laza_ecommerce/features/home/data/data_sources/category_remote_data_source.dart';
 import 'package:laza_ecommerce/features/home/domain/entities/category_entity.dart';

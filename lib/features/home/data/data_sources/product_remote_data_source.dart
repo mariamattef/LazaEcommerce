@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:laza_ecommerce/core/databases/api/api_consumer.dart';
 import 'package:laza_ecommerce/core/databases/api/end_points.dart';
 import 'package:laza_ecommerce/core/errors/error_model.dart';
-import 'package:laza_ecommerce/core/errors/expentions.dart';
+import 'package:laza_ecommerce/core/errors/exceptions.dart';
 import 'package:laza_ecommerce/core/params/params.dart';
 import 'package:laza_ecommerce/features/home/data/models/product_model.dart';
 

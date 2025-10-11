@@ -1,13 +1,20 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laza_ecommerce/features/auth/domain/usecases/auth_usecase.dart';
+import 'package:laza_ecommerce/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:laza_ecommerce/features/auth/domain/usecases/verify_otp_usecase.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthUsecase authUsecase;
+  final VerifyOtpUseCase verifyOtpUseCase;
+  final LogoutUseCase logoutUseCase;
 
-  AuthCubit({required this.authUsecase}) : super(AuthInitial());
+  AuthCubit({
+    required this.authUsecase,
+    required this.verifyOtpUseCase,
+    required this.logoutUseCase,
+  }) : super(AuthInitial());
 
   Future<void> signUp({
     required String email,
@@ -23,8 +30,8 @@ class AuthCubit extends Cubit<AuthState> {
       lastName: lastName,
     );
     result.fold(
-      (failure) => emit(AuthFailure(errMessage: failure.message)),
-      (_) => emit(AuthSuccess()),
+      (failure) => emit(AuthFailure(errMessage: failure.errorMessage)),
+      (_) => emit(AuthSignUpSuccess(email: email)),
     );
   }
 
@@ -40,8 +47,29 @@ class AuthCubit extends Cubit<AuthState> {
       rememberMe: rememberMe,
     );
     result.fold(
-      (failure) => emit(AuthFailure(errMessage: failure.message)),
+      (failure) => emit(AuthFailure(errMessage: failure.errorMessage)),
       (_) => emit(AuthSuccess()),
+    );
+  }
+
+  Future<void> verifyOtp({required String email, required String otp}) async {
+    emit(OtpVerificationLoading());
+    final result = await verifyOtpUseCase.call(
+      email: email,
+      otp: otp,
+    );
+    result.fold(
+      (failure) => emit(OtpVerificationFailure(errMessage: failure.errorMessage)),
+      (_) => emit(OtpVerificationSuccess()),
+    );
+  }
+
+  Future<void> logout() async {
+    emit(LogoutLoading());
+    final result = await logoutUseCase.call();
+    result.fold(
+      (failure) => emit(LogoutFailure(errMessage: failure.errorMessage)),
+      (_) => emit(LogoutSuccess()),
     );
   }
 }
